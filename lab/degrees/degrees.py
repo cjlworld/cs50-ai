@@ -99,7 +99,7 @@ def shortest_path(source, target):
     frontier.add(start)
 
     while not frontier.empty():
-        current:Node = frontier.remove() # 取出当前节点
+        current: Node = frontier.remove() # 取出当前节点
 
         # Goal test
         if current.state == target:
@@ -112,7 +112,7 @@ def shortest_path(source, target):
         
         # explored
         explored.add(current.state) # 注意 explored 里面装的是 state
-        print(f"explored {people[current.state]['name']}")
+        # print(f"explored {people[current.state]['name']}")
 
         # Add neighbors to frontier
         for action, state in neighbors_for_person(current.state): 
