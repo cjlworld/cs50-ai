@@ -4,6 +4,7 @@ Tic Tac Toe Player
 
 import math
 import copy
+import random
 
 X = "X"
 O = "O"
@@ -136,10 +137,11 @@ def minimax(board):
     """
     if terminal(board):
         return None
-    else:
-        action = MiniMAX(board, INF if player(board) == X else -INF)[1]
-        print("============================")
-        return action
+    
+    if len(actions(board)) == 9:
+        return (random.randint(0, 2), random.randint(0, 2))
+    action = MiniMAX(board, INF if player(board) == X else -INF)[1]
+    return action
 
     raise NotImplementedError
 
@@ -155,27 +157,29 @@ def MiniMAX(board, father_value):
     if terminal(board):
         return (utility(board), None)
 
-    # print(player(board) + ":")
-    if player(board) == X: # X 行动
+    # X 行动
+    if player(board) == X: 
         value = -INF
         optimalAction = (0, 0)
         for action in actions(board):
             child = MiniMAX(result(board, action), value)
-            # print(child)
-            if child[0] > value:
+            if child[0] > value or (child[0] == value and random.randint(1, 3) == 1):
                 value = child[0]
                 optimalAction = action
-            if value >= father_value: # alpha-beta 剪枝
+            if value > father_value: # alpha-beta 剪枝
                 return (value, optimalAction)
-    else: # O 行动
+    # O 行动
+    else: 
         value = INF
         optimalAction = (0, 0)
         for action in actions(board):
             child = MiniMAX(result(board, action), value)
-            if child[0] < value:
+
+            if child[0] < value or (child[0] == value and random.randint(1, 3) == 1):
                 value = child[0]
                 optimalAction = action
-            if value <= father_value: # alpha-beta 剪枝
+            # alpha-beta 剪枝
+            if value < father_value: 
                 return (value, optimalAction)
     
     return (value, optimalAction)
